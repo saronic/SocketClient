@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +19,13 @@ public class MainActivity extends Activity {
 
 	Button mReceiveBtn;
 	TextView mReceiveTv;
+	Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			if (msg.what == 1) {
+				mReceiveTv.setText(msg.obj.toString());
+			}
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +62,10 @@ public class MainActivity extends Activity {
 				String msg = new String(buffer);
 				
 				Log.i("lsx", msg);
+				Message handlerMsg = new Message();
+				handlerMsg.what = 1;
+				handlerMsg.obj = msg;
+				handler.sendMessage(handlerMsg);
 				//mReceiveTv.setText(msg);
 			} catch (UnknownHostException e) {
 				Log.i("lsx", "unknown host...........");
