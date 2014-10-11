@@ -39,10 +39,14 @@ public class MainActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Log.i("lsx", "prepared to start socket linking...");
 				Socket socket = new Socket("192.168.191.6", 8889);
 				Log.i("lsx", " socket link done..." + socket.getRemoteSocketAddress().toString());
 				InputStream in = socket.getInputStream();
+				
+				int count = 0;
+				while(count == 0) {
+					count = in.available();
+				}
 				Log.i("lsx", String.valueOf(in.available()) + "¸ö×Ö½Ú");
 				byte[] buffer = new byte[in.available()];
 				in.read(buffer);
